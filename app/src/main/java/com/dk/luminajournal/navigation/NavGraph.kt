@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationScreen
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.stevdzasan.messagebar.rememberMessageBarState
+import com.stevdzasan.onetap.rememberOneTapSignInState
 
 @Composable
 fun SetupNavGraph(
@@ -28,11 +30,15 @@ fun SetupNavGraph(
 
 fun NavGraphBuilder.authenticationRoute(){
     composable(route = Screen.Authentication.route){
+        val oneTapState = rememberOneTapSignInState()
+        val messageBarState = rememberMessageBarState()
         AuthenticationScreen(
-            loadingState = false,
+            loadingState = oneTapState.opened,
+            oneTapState = oneTapState,
             onButtonClicked = {
-
-            }
+                oneTapState.open()
+            },
+            messageBarState = messageBarState
         )
     }
 }
