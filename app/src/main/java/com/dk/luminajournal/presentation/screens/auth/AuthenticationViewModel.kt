@@ -8,12 +8,16 @@ import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.GoogleAuthType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AuthenticationViewModel: ViewModel() {
 
     var loadingState = mutableStateOf(false)
+        private set
+
+    var authenticated = mutableStateOf(false)
         private set
 
     fun setLoading(loading: Boolean){
@@ -36,6 +40,8 @@ class AuthenticationViewModel: ViewModel() {
                 }
                 withContext(Dispatchers.Main){
                     onSuccess(result)
+                    delay(600)
+                    authenticated.value = true
                 }
             }
             catch (e: Exception){

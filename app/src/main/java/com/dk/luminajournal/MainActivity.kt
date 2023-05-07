@@ -8,6 +8,8 @@ import androidx.navigation.compose.rememberNavController
 import com.dk.luminajournal.navigation.Screen
 import com.dk.luminajournal.navigation.SetupNavGraph
 import com.dk.luminajournal.ui.theme.LuminaJournalTheme
+import com.dk.luminajournal.util.Constants.APP_ID
+import io.realm.kotlin.mongodb.App
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,10 +19,16 @@ class MainActivity : ComponentActivity() {
             LuminaJournalTheme {
                 val navController = rememberNavController()
                 SetupNavGraph(
-                    startDestination = Screen.Authentication.route,
+                    startDestination = getStartDestination(),
                     navController = navController
                 )
             }
         }
     }
+}
+
+private fun getStartDestination(): String{
+    val user = App.create(appId = APP_ID).currentUser
+    return if(user != null && user.loggedIn) Screen.Home.route
+    else Screen.Authentication.route
 }
