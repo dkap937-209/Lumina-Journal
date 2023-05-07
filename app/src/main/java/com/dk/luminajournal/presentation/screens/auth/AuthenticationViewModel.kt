@@ -30,7 +30,7 @@ class AuthenticationViewModel: ViewModel() {
                 val result = withContext(Dispatchers.IO){
                     App.create(appId = APP_ID)
                         .login(
-                            credentials = Credentials.google(tokenId, GoogleAuthType.ID_TOKEN)
+                            credentials = Credentials.jwt(jwtToken = tokenId)
                         )
                         .loggedIn
                 }
