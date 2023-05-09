@@ -21,7 +21,7 @@ fun HomeTopBar(
                 Text(text = "Diary")
         },
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onMenuClicked) {
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = "Menu",
