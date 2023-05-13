@@ -1,5 +1,6 @@
 package com.dk.luminajournal.presentation.screens.home
 
+import HomeContent
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -53,7 +54,10 @@ fun HomeScreen(
                 }
             },
             content = {
-
+                HomeContent(
+                    diaryNotes = mapOf(),
+                    onClick = {}
+                )
             }
         )
     }
