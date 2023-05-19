@@ -24,11 +24,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dk.luminajournal.data.repository.MongoDB
+import com.dk.luminajournal.model.Diary
 import com.dk.luminajournal.presentation.components.DisplayAlertDialog
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationScreen
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationViewModel
 import com.dk.luminajournal.presentation.screens.home.HomeScreen
 import com.dk.luminajournal.presentation.screens.home.HomeViewModel
+import com.dk.luminajournal.presentation.screens.write.WriteScreen
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.dk.luminajournal.util.RequestState
@@ -66,7 +68,12 @@ fun SetupNavGraph(
             },
             onDataLoaded = onDataLoaded
         )
-        writeRoute()
+        writeRoute(
+            onBackPressed = {
+                navController.popBackStack()
+            },
+            onDeleteConfirmed = {}
+        )
     }
     
 }
@@ -174,7 +181,10 @@ fun NavGraphBuilder.homeRoute(
     }
 }
 
-fun NavGraphBuilder.writeRoute(){
+fun NavGraphBuilder.writeRoute(
+    onBackPressed: () -> Unit,
+    onDeleteConfirmed: () -> Unit
+){
     composable(
         route = Screen.Write.route,
         arguments = listOf(
@@ -185,6 +195,10 @@ fun NavGraphBuilder.writeRoute(){
             }
         )
     ){
-
+        WriteScreen(
+            onBackPressed = onBackPressed,
+            selectedDiary = null,
+            onDeleteConfirmed = onDeleteConfirmed
+        )
     }
 }
