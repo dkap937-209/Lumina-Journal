@@ -34,6 +34,8 @@ import com.dk.luminajournal.presentation.screens.write.WriteScreen
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.dk.luminajournal.util.RequestState
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import io.realm.kotlin.mongodb.App
@@ -181,6 +183,7 @@ fun NavGraphBuilder.homeRoute(
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 fun NavGraphBuilder.writeRoute(
     onBackPressed: () -> Unit,
     onDeleteConfirmed: () -> Unit
@@ -195,8 +198,10 @@ fun NavGraphBuilder.writeRoute(
             }
         )
     ){
+        val pagerState = rememberPagerState()
         WriteScreen(
             onBackPressed = onBackPressed,
+            pagerState = pagerState,
             selectedDiary = null,
             onDeleteConfirmed = onDeleteConfirmed
         )
