@@ -28,6 +28,7 @@ import com.dk.luminajournal.presentation.components.DisplayAlertDialog
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationScreen
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationViewModel
 import com.dk.luminajournal.presentation.screens.home.HomeScreen
+import com.dk.luminajournal.presentation.screens.home.HomeViewModel
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.stevdzasan.messagebar.rememberMessageBarState
@@ -114,12 +115,15 @@ fun NavGraphBuilder.homeRoute(
     navigateToAuth: () -> Unit
 ){
     composable(route = Screen.Home.route){
+        val viewModel: HomeViewModel = viewModel()
+        val diaries by viewModel.diaries
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         var signOutDialogOpened by remember{
             mutableStateOf(false)
         }
         HomeScreen(
+            diaries = diaries,
             drawerState = drawerState,
             onMenuClicked = {
                 scope.launch {
