@@ -36,7 +36,7 @@ object MongoDB: MongoRepository {
                 schema = setOf(Diary::class)
             ).initialSubscriptions{ sub ->
                add(
-                   query  = sub.query(query = "ownerId == $0", user.id),
+                   query  = sub.query(query = "owner_id == $0", user.id),
                    name = "User's Diaries"
                )
             }
@@ -50,7 +50,7 @@ object MongoDB: MongoRepository {
     override fun getAllDiaries(): Flow<Diaries> {
         return  if(user != null){
             try {
-                realm.query<Diary>(query = "ownerId == $0", user.id)
+                realm.query<Diary>(query = "owner_id == $0", user.id)
                     .sort(property = "date", sortOrder = Sort.DESCENDING)
                     .asFlow()
                     .map{ result ->
