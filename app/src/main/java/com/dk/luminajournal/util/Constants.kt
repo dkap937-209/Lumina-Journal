@@ -1,8 +1,5 @@
 package com.dk.luminajournal.util
 
-import com.dk.luminajournal.model.Diary
-import java.time.LocalDate
-
 object Constants{
     const val CLIENT_ID = "974853111567-tmkscr4ssrhkbiqb6u75mftfg11ih45q.apps.googleusercontent.com"
     const val APP_ID = "diaryapp-soima"

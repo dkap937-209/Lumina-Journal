@@ -1,5 +1,6 @@
 package com.dk.luminajournal.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel: ViewModel() {
 
+    private val TAG = "HomeViewModel"
+
     init {
         observeAllDiaries()
     }
@@ -22,7 +25,7 @@ class HomeViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             MongoDB.getAllDiaries().collect{ result ->
                 diaries.value = result
-                println("Diary collected: $result")
+                Log.i(TAG, "Diary collected: $result")
             }
         }
     }

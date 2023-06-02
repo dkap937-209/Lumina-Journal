@@ -1,5 +1,6 @@
 package com.dk.luminajournal.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import com.dk.luminajournal.presentation.screens.auth.AuthenticationViewModel
 import com.dk.luminajournal.presentation.screens.home.HomeScreen
 import com.dk.luminajournal.presentation.screens.home.HomeViewModel
 import com.dk.luminajournal.presentation.screens.write.WriteScreen
+import com.dk.luminajournal.presentation.screens.write.WriteViewModel
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.dk.luminajournal.util.RequestState
@@ -68,7 +70,10 @@ fun SetupNavGraph(
                 navController.popBackStack()
                 navController.navigate(Screen.Authentication.route)
             },
-            onDataLoaded = onDataLoaded
+            onDataLoaded = onDataLoaded,
+            navigateToWriteWithArgs = { id ->
+                navController.navigate(Screen.Write.passDiaryId(diaryId = id))
+            }
         )
         writeRoute(
             onBackPressed = {
@@ -130,6 +135,7 @@ fun NavGraphBuilder.authenticationRoute(
 
 fun NavGraphBuilder.homeRoute(
     navigateToWrite: () -> Unit,
+    navigateToWriteWithArgs: (String) -> Unit,
     navigateToAuth: () -> Unit,
     onDataLoaded: () -> Unit
 ){
@@ -159,7 +165,8 @@ fun NavGraphBuilder.homeRoute(
             navigateToWrite = navigateToWrite,
             onSignOutClicked = {
                 signOutDialogOpened = true
-            }
+            },
+            navigateToWriteWithArgs = navigateToWriteWithArgs
         )
         LaunchedEffect(key1 = Unit){
             MongoDB.configureRealm()
@@ -198,11 +205,18 @@ fun NavGraphBuilder.writeRoute(
             }
         )
     ){
+        val viewModel: WriteViewModel = viewModel()
+        val uiState = viewModel.uiState
         val pagerState = rememberPagerState()
+
+        LaunchedEffect(key1 = uiState){
+            Log.d("SelectedDiary", "${uiState.selectedDiaryId}")
+        }
+
         WriteScreen(
             onBackPressed = onBackPressed,
             pagerState = pagerState,
-            selectedDiary = null,
+            selectedDiary = null ,
             onDeleteConfirmed = onDeleteConfirmed
         )
     }
