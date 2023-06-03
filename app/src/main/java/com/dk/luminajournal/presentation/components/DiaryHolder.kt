@@ -47,6 +47,9 @@ import com.dk.luminajournal.util.toInstant
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 @Composable
@@ -132,6 +135,11 @@ fun DiaryHeader(
     val mood by remember{
         mutableStateOf(Mood.valueOf(moodName))
     }
+    val formatter = remember {
+        DateTimeFormatter.ofPattern("hh:mm a", Locale.getDefault())
+            .withZone(ZoneId.systemDefault())
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -153,6 +161,11 @@ fun DiaryHeader(
                 style = TextStyle(fontSize = MaterialTheme.typography.bodyMedium.fontSize)
             )
         }
+        Text(
+            text = formatter.format(time),
+            color = mood.contentColour,
+            style = TextStyle(fontSize = MaterialTheme.typography.bodyMedium.fontSize)
+        )
     }
 }
 

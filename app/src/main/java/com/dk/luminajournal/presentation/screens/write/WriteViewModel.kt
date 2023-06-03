@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dk.luminajournal.data.repository.MongoDB
+import com.dk.luminajournal.model.Diary
 import com.dk.luminajournal.model.Mood
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.dk.luminajournal.util.RequestState
@@ -31,7 +32,7 @@ class WriteViewModel(
          uiState = uiState.copy(
              selectedDiaryId = savedStateHandle.get<String>(
                  key = WRITE_SCREEN_ARGUMENT_KEY
-             )!!.replace("BsonObjectId(", "").replace(")", "")
+             )?.replace("BsonObjectId(", "")?.replace(")", "")
          )
      }
 
@@ -39,7 +40,6 @@ class WriteViewModel(
 
         if(uiState.selectedDiaryId != null){
             viewModelScope.launch(Dispatchers.Main) {
-                //TODO: Clean that diaryId line and find a way to make it universal
                 val diary = MongoDB.getSelectedDiary(
                     diaryId = ObjectId.invoke(uiState.selectedDiaryId!!)
                 )
@@ -47,6 +47,7 @@ class WriteViewModel(
                     setTitle(title = diary.data.title)
                     setDescription(description = diary.data.description)
                     setMood(mood = Mood.valueOf(diary.data.mood))
+                    setSelectedDiary(diary = diary.data)
                 }
             }
         }
@@ -70,10 +71,17 @@ class WriteViewModel(
         )
     }
 
+    fun setSelectedDiary(diary: Diary){
+        uiState = uiState.copy(
+            selectedDiary = diary
+        )
+    }
+
 }
 
 data class UiState(
     val selectedDiaryId: String? = null,
+    val selectedDiary: Diary? = null,
     val title: String = "",
     val description: String = "",
     val mood: Mood = Mood.Neutral
