@@ -14,6 +14,7 @@ import io.realm.kotlin.query.Sort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import org.mongodb.kbson.ObjectId
 import java.time.ZoneId
 
 object MongoDB: MongoRepository {
@@ -74,6 +75,24 @@ object MongoDB: MongoRepository {
             flow{
                 emit(RequestState.Error(UserNotAuthenticatedException()))
             }
+        }
+    }
+
+    override fun getSelectedDiary(diaryId: ObjectId): RequestState<Diary> {
+        return if(user!= null){
+            try {
+                val diary = realm.query<Diary>(
+                    query = "_id == $0", diaryId
+                ).find().first()
+
+                RequestState.Success(data = diary)
+            }
+            catch(e: Exception){
+                RequestState.Error(e)
+            }
+        }
+        else{
+            RequestState.Error(UserNotAuthenticatedException())
         }
     }
 }
