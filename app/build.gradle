@@ -233,6 +233,5 @@ dependencies {
     implementation 'com.github.stevdza-san:OneTapCompose:1.0.0'
 
     // Desugar JDK
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.0'
-
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 }

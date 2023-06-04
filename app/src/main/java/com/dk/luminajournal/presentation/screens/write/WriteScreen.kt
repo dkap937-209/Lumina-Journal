@@ -8,6 +8,7 @@ import com.dk.luminajournal.model.Diary
 import com.dk.luminajournal.model.Mood
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -20,7 +21,8 @@ fun WriteScreen(
     onDescriptionChanged: (String) -> Unit,
     onDeleteConfirmed: () -> Unit,
     moodName: () -> String,
-    onSaveClicked: (Diary) -> Unit
+    onSaveClicked: (Diary) -> Unit,
+    onDateTimeUpdated: (ZonedDateTime) -> Unit,
 ) {
     LaunchedEffect(key1 = uiState.mood){
         pagerState.scrollToPage(Mood.valueOf(uiState.mood.name).ordinal)
@@ -32,7 +34,8 @@ fun WriteScreen(
                 onBackPressed = onBackPressed,
                 selectedDiary = uiState.selectedDiary,
                 onDeleteConfirmed = onDeleteConfirmed,
-                moodName =  moodName
+                moodName =  moodName,
+                onDateTimeUpdated = onDateTimeUpdated
             )
         },
         content = {

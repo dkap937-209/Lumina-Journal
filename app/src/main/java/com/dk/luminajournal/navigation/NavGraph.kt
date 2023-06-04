@@ -212,6 +212,7 @@ fun NavGraphBuilder.writeRoute(
             onTitleChanged = { viewModel.setTitle(title = it) },
             onDescriptionChanged = { viewModel.setDescription(description = it)},
             onDeleteConfirmed = onDeleteConfirmed,
+            onDateTimeUpdated = { viewModel.updateDateTime(zonedDateTime = it) },
             moodName = {
                 Mood.values()[pageNumber].name
             },
