@@ -6,7 +6,6 @@ import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.RequestState
 import com.dk.luminajournal.util.toInstant
 import io.realm.kotlin.Realm
-import io.realm.kotlin.ext.asFlow
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.mongodb.App
@@ -32,7 +31,6 @@ object MongoDB: MongoRepository {
     override fun configureRealm() {
         if(user != null){
             Log.i(TAG, "Started realm configuration")
-            println("User id: ${user.id}")
             var config = SyncConfiguration.Builder(
                 user = user,
                 schema = setOf(Diary::class)
@@ -118,6 +116,36 @@ object MongoDB: MongoRepository {
             }
         }
         else{
+            RequestState.Error(UserNotAuthenticatedException())
+        }
+    }
+
+    override suspend fun updateDiary(diary: Diary): RequestState<Diary> {
+        return if (user != null){
+            realm.write{
+                val queriedDiary = query<Diary>(query = "_id == $0", diary._id)
+                    .first().find()
+
+                if(queriedDiary != null) {
+                    Log.i(TAG, "Queried Diary is not null | queriedDiary = $queriedDiary")
+                    queriedDiary.apply {
+                        this.title = diary.title
+                        this.description = diary.description
+                        this.date = diary.date
+                        this.mood = diary.mood
+                        this.images = diary.images
+                    }
+                    Log.i(TAG, "updated Queried Diary | updatedDiary = $queriedDiary")
+                    RequestState.Success(data = queriedDiary)
+                }
+                else{
+                    Log.i(TAG, "Queried Diary is null")
+                    RequestState.Error(error = Exception("Queried Diary does not exist"))
+                }
+            }
+        }
+        else{
+            Log.i(TAG, "User is not authenticated")
             RequestState.Error(UserNotAuthenticatedException())
         }
     }

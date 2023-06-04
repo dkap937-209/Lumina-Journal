@@ -1,6 +1,5 @@
 package com.dk.luminajournal.navigation
 
-
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -217,10 +216,11 @@ fun NavGraphBuilder.writeRoute(
                 Mood.values()[pageNumber].name
             },
             onSaveClicked = { diary ->
-                viewModel.insertDiary(
+                viewModel.upsertDiary(
                     diary = diary.apply { mood = Mood.values()[pageNumber].name },
                     onSuccess = { onBackPressed () },
-                    onError = {}
+                    onError = {
+                    }
                 )
             }
         )
