@@ -6,6 +6,7 @@ import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.RequestState
 import com.dk.luminajournal.util.toInstant
 import io.realm.kotlin.Realm
+import io.realm.kotlin.ext.asFlow
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.mongodb.App
@@ -78,17 +79,42 @@ object MongoDB: MongoRepository {
         }
     }
 
-    override fun getSelectedDiary(diaryId: ObjectId): RequestState<Diary> {
+    override fun getSelectedDiary(diaryId: ObjectId): Flow<RequestState<Diary>> {
         return if(user!= null){
             try {
-                val diary = realm.query<Diary>(
+                realm.query<Diary>(
                     query = "_id == $0", diaryId
-                ).find().first()
-
-                RequestState.Success(data = diary)
+                ).asFlow().map {
+                    RequestState.Success(data = it.list.first())
+                }
             }
             catch(e: Exception){
-                RequestState.Error(e)
+                flow {
+                    emit(RequestState.Error(e))
+                }
+            }
+        }
+        else{
+            flow {
+                emit( RequestState.Error(UserNotAuthenticatedException()))
+            }
+        }
+    }
+
+    override suspend fun insertDiary(diary: Diary): RequestState<Diary> {
+        return if (user != null){
+            realm.write{
+                try {
+                    val addedDiary = copyToRealm(
+                        instance = diary.apply {
+                            owner_id = user.id
+                        }
+                    )
+                    RequestState.Success(data = addedDiary)
+                }
+                catch (e: Exception){
+                    RequestState.Error(e)
+                }
             }
         }
         else{

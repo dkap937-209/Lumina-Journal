@@ -40,14 +40,16 @@ class WriteViewModel(
 
         if(uiState.selectedDiaryId != null){
             viewModelScope.launch(Dispatchers.Main) {
-                val diary = MongoDB.getSelectedDiary(
+                MongoDB.getSelectedDiary(
                     diaryId = ObjectId.invoke(uiState.selectedDiaryId!!)
                 )
-                if(diary is RequestState.Success){
-                    setTitle(title = diary.data.title)
-                    setDescription(description = diary.data.description)
-                    setMood(mood = Mood.valueOf(diary.data.mood))
-                    setSelectedDiary(diary = diary.data)
+                .collect{ diary ->
+                    if(diary is RequestState.Success){
+                        setTitle(title = diary.data.title)
+                        setDescription(description = diary.data.description)
+                        setMood(mood = Mood.valueOf(diary.data.mood))
+                        setSelectedDiary(diary = diary.data)
+                    }
                 }
             }
         }
@@ -65,16 +67,38 @@ class WriteViewModel(
         )
     }
 
-    fun setMood(mood: Mood){
+    private fun setMood(mood: Mood){
         uiState = uiState.copy(
             mood = mood
         )
     }
 
-    fun setSelectedDiary(diary: Diary){
+    private fun setSelectedDiary(diary: Diary){
         uiState = uiState.copy(
             selectedDiary = diary
         )
+    }
+
+    fun insertDiary(
+        diary: Diary,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = MongoDB.insertDiary(diary = diary)
+            if(result  is RequestState.Success){
+                withContext(Dispatchers.Main){
+                    onSuccess()
+                }
+            }
+            else if (result is RequestState.Error){
+                withContext(Dispatchers.Main){
+                    onError(result.error.message.toString())
+                }
+            }
+        }
+
+
     }
 
 }
