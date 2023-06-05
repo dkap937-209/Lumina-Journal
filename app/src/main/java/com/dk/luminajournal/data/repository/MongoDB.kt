@@ -121,6 +121,7 @@ object MongoDB: MongoRepository {
     }
 
     override suspend fun updateDiary(diary: Diary): RequestState<Diary> {
+        Log.i(TAG, "updateDiary | diaryId = $diary._id | userId = ${user?.id}")
         return if (user != null){
             realm.write{
                 val queriedDiary = query<Diary>(query = "_id == $0", diary._id)
@@ -143,6 +144,39 @@ object MongoDB: MongoRepository {
                     RequestState.Error(error = Exception("Queried Diary does not exist"))
                 }
             }
+        }
+        else{
+            Log.i(TAG, "User is not authenticated")
+            RequestState.Error(UserNotAuthenticatedException())
+        }
+    }
+
+    override suspend fun deleteDiary(id: ObjectId): RequestState<Diary> {
+        Log.i(TAG, "deleteDiary | diaryId = $id | userId = ${user?.id}")
+        return if (user != null){
+            realm.write{
+
+                val diary = query<Diary>(
+                    query = "_id == $0 AND owner_id == $1", id, user.id
+                ).first().find()
+                Log.i(TAG, "deleteDiary | diaryObject = $diary")
+
+                if(diary != null){
+                    try {
+                        delete(diary)
+                        RequestState.Success(data = diary)
+                    }
+                    catch (e: Exception){
+                        Log.i(TAG, "deleteDiary | Exception = $e")
+                        RequestState.Error(e)
+                    }
+                }
+                else{
+                    Log.i(TAG, "deleteDiary | Error: Diary does not exist")
+                    RequestState.Error(Exception("Diary does not exist"))
+                }
+            }
+
         }
         else{
             Log.i(TAG, "User is not authenticated")
