@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dk.luminajournal.data.repository.MongoDB
+import com.dk.luminajournal.model.GalleryImage
 import com.dk.luminajournal.model.Mood
 import com.dk.luminajournal.presentation.components.DisplayAlertDialog
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationScreen
@@ -30,7 +31,8 @@ import com.dk.luminajournal.presentation.screens.write.WriteScreen
 import com.dk.luminajournal.presentation.screens.write.WriteViewModel
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.dk.luminajournal.util.RequestState
+import com.dk.luminajournal.model.RequestState
+import com.dk.luminajournal.model.rememberGalleryState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.stevdzasan.messagebar.rememberMessageBarState
@@ -202,6 +204,7 @@ fun NavGraphBuilder.writeRoute(
         val context = LocalContext.current
         val uiState = viewModel.uiState
         val pagerState = rememberPagerState()
+        val galleryState = rememberGalleryState()
         val pageNumber by remember {
             derivedStateOf{ pagerState.currentPage }
         }
@@ -212,6 +215,7 @@ fun NavGraphBuilder.writeRoute(
             pagerState = pagerState,
             onTitleChanged = { viewModel.setTitle(title = it) },
             onDescriptionChanged = { viewModel.setDescription(description = it)},
+            galleryState = galleryState,
             onDeleteConfirmed = { viewModel.deleteDiary(
                 onSuccess = {
                     Toast.makeText(
@@ -244,6 +248,14 @@ fun NavGraphBuilder.writeRoute(
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                )
+            },
+            onImageSelect = { uri ->
+                galleryState.addImage(
+                    GalleryImage(
+                        image = uri,
+                        remoteImagePath = ""
+                    )
                 )
             }
         )

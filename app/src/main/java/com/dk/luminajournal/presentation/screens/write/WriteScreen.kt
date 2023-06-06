@@ -1,10 +1,12 @@
 package com.dk.luminajournal.presentation.screens.write
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.dk.luminajournal.model.Diary
+import com.dk.luminajournal.model.GalleryState
 import com.dk.luminajournal.model.Mood
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
@@ -23,6 +25,8 @@ fun WriteScreen(
     moodName: () -> String,
     onSaveClicked: (Diary) -> Unit,
     onDateTimeUpdated: (ZonedDateTime) -> Unit,
+    galleryState: GalleryState,
+    onImageSelect: (Uri) -> Unit
 ) {
     LaunchedEffect(key1 = uiState.mood){
         pagerState.scrollToPage(Mood.valueOf(uiState.mood.name).ordinal)
@@ -47,7 +51,9 @@ fun WriteScreen(
                 description = uiState.description,
                 onDescriptionChanged = onDescriptionChanged,
                 paddingValues = it,
-                onSaveClicked = onSaveClicked
+                onSaveClicked = onSaveClicked,
+                galleryState = galleryState,
+                onImageSelect = onImageSelect
             )
         }
     )

@@ -1,4 +1,4 @@
-package com.dk.luminajournal.util
+package com.dk.luminajournal.model
 
 sealed class RequestState<out T>{
     object Idle: RequestState<Nothing>()

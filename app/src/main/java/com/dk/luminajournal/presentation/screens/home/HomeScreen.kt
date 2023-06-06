@@ -2,7 +2,6 @@ package com.dk.luminajournal.presentation.screens.home
 
 import EmptyPage
 import HomeContent
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,7 +41,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.dk.luminajournal.R
 import com.dk.luminajournal.data.repository.Diaries
-import com.dk.luminajournal.util.RequestState
+import com.dk.luminajournal.model.RequestState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dk.luminajournal.data.repository.Diaries
 import com.dk.luminajournal.data.repository.MongoDB
-import com.dk.luminajournal.util.RequestState
+import com.dk.luminajournal.model.RequestState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

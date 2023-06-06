@@ -10,7 +10,7 @@ import com.dk.luminajournal.data.repository.MongoDB
 import com.dk.luminajournal.model.Diary
 import com.dk.luminajournal.model.Mood
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.dk.luminajournal.util.RequestState
+import com.dk.luminajournal.model.RequestState
 import com.dk.luminajournal.util.toRealmInstant
 import io.realm.kotlin.types.RealmInstant
 import kotlinx.coroutines.Dispatchers
