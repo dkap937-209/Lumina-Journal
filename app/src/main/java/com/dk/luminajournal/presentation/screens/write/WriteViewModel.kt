@@ -15,8 +15,11 @@ import com.dk.luminajournal.model.GalleryState
 import com.dk.luminajournal.model.Mood
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.dk.luminajournal.model.RequestState
+import com.dk.luminajournal.util.fetchImagesFromFirebase
 import com.dk.luminajournal.util.toRealmInstant
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import io.realm.kotlin.types.RealmInstant
 import kotlinx.coroutines.Dispatchers
@@ -64,10 +67,30 @@ class WriteViewModel(
                         setDescription(description = diary.data.description)
                         setMood(mood = Mood.valueOf(diary.data.mood))
                         setSelectedDiary(diary = diary.data)
+
+                        fetchImagesFromFirebase(
+                            remoteImagePaths = diary.data.images,
+                            onImageDownload = { downloadedImage ->
+                                galleryState.addImage(
+                                    GalleryImage(
+                                        image = downloadedImage,
+                                        remoteImagePath = extractImagePath(
+                                            fullImageUrl = downloadedImage.toString()
+                                        )
+                                    )
+                                )
+                            }
+                        )
                     }
                 }
             }
         }
+    }
+
+    private fun extractImagePath(fullImageUrl: String): String {
+        val chunks = fullImageUrl.split("%2F")
+        val imageName = chunks[2].split("?").first()
+        return "images/${Firebase.auth.currentUser?.uid}/$imageName"
     }
 
     fun setTitle(title: String){

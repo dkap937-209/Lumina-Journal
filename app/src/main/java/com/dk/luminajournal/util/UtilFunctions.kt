@@ -1,8 +1,12 @@
 package com.dk.luminajournal.util
 
+import android.net.Uri
+import android.util.Log
+import com.google.firebase.storage.FirebaseStorage
 import io.realm.kotlin.types.RealmInstant
 import java.time.Instant
 
+private const val TAG = "UtilFunctions"
 fun RealmInstant.toInstant(): Instant {
     val sec: Long = this.epochSeconds
     val nano: Int = this.nanosecondsOfSecond
@@ -25,5 +29,31 @@ fun Instant.toRealmInstant(): RealmInstant {
             epochSeconds = sec + 1,
             nanosecondAdjustment = -1_000_000 + nano
         )
+    }
+}
+
+fun fetchImagesFromFirebase(
+    remoteImagePaths: List<String>,
+    onImageDownload: (Uri) -> Unit,
+    onImageDownloadFailed: (Exception) -> Unit = {},
+    onReadyToDisplay: () -> Unit = {}
+){
+    if(remoteImagePaths.isNotEmpty()){
+        remoteImagePaths.forEachIndexed{ index, remoteImagePath ->
+            if(remoteImagePath.trim().isNotEmpty()){
+                FirebaseStorage.getInstance().reference.child(remoteImagePath.trim()).downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Log.i(TAG, "fetchImagesFromFirebase || response = success || uri = $uri ||")
+                        onImageDownload(uri)
+                        if(remoteImagePaths.lastIndexOf(remoteImagePaths.last()) == index){
+                            onReadyToDisplay()
+                        }
+                    }
+                    .addOnFailureListener{
+                        Log.i(TAG, "fetchImagesFromFirebase || response = failure || error = $it} ||")
+                        onImageDownloadFailed(it)
+                    }
+            }
+        }
     }
 }

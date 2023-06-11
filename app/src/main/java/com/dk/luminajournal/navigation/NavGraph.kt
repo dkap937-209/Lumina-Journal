@@ -41,7 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val TAG = "NavGraph"
+private const val TAG = "NavGraph"
 @Composable
 fun SetupNavGraph(
     startDestination: String,
