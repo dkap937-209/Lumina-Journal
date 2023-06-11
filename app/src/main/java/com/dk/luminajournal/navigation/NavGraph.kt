@@ -1,5 +1,6 @@
 package com.dk.luminajournal.navigation
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
@@ -20,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dk.luminajournal.data.repository.MongoDB
-import com.dk.luminajournal.model.GalleryImage
 import com.dk.luminajournal.model.Mood
 import com.dk.luminajournal.presentation.components.DisplayAlertDialog
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationScreen
@@ -32,7 +32,6 @@ import com.dk.luminajournal.presentation.screens.write.WriteViewModel
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.dk.luminajournal.model.RequestState
-import com.dk.luminajournal.model.rememberGalleryState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.stevdzasan.messagebar.rememberMessageBarState
@@ -42,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private val TAG = "NavGraph"
 @Composable
 fun SetupNavGraph(
     startDestination: String,
@@ -205,10 +205,10 @@ fun NavGraphBuilder.writeRoute(
         )
     ){
         val viewModel: WriteViewModel = viewModel()
-         val context = LocalContext.current
+        val context = LocalContext.current
         val uiState = viewModel.uiState
         val pagerState = rememberPagerState()
-        val galleryState = rememberGalleryState()
+        val galleryState = viewModel.galleryState
         val pageNumber by remember {
             derivedStateOf{ pagerState.currentPage }
         }
@@ -255,11 +255,11 @@ fun NavGraphBuilder.writeRoute(
                 )
             },
             onImageSelect = { uri ->
-                galleryState.addImage(
-                    GalleryImage(
-                        image = uri,
-                        remoteImagePath = ""
-                    )
+                val type = context.contentResolver.getType(uri)?.split("/")?.last()?:"jpg"
+                Log.i(TAG, "WriteScreen | onImageSelect || URI = $uri")
+                viewModel.addImage(
+                    image = uri,
+                    imageType = type
                 )
             }
         )
