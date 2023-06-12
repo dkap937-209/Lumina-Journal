@@ -5,5 +5,8 @@ object Constants{
     const val APP_ID = "diaryapp-soima"
 
     const val WRITE_SCREEN_ARGUMENT_KEY = "diaryId"
+
+    const val IMAGE_TO_UPLOAD_TABLE = "images_to_upload_table"
+    const val IMAGES_DATABASE = "images_db"
 }
 
