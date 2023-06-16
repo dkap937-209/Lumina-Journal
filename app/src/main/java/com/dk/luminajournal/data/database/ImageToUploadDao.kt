@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.dk.luminajournal.data.database.entity.ImageToUpload
 
 @Dao
-interface ImagesToUploadDao {
+interface ImageToUploadDao {
 
     @Query("SELECT * FROM images_to_upload_table ORDER BY id ASC")
     suspend fun getAllImages(): List<ImageToUpload>

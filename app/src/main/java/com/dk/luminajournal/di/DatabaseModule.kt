@@ -32,5 +32,4 @@ object DatabaseModule {
     fun provideFirstDao(
         database: ImagesDatabase
     ) = database.imageToUploadDao()
-
 }
