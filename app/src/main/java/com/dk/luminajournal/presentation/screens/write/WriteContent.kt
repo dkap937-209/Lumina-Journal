@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dk.luminajournal.model.Diary
+import com.dk.luminajournal.model.GalleryImage
 import com.dk.luminajournal.model.GalleryState
 import com.dk.luminajournal.model.Mood
 import com.dk.luminajournal.presentation.components.GalleryUploader
@@ -59,6 +60,7 @@ fun WriteContent(
     onSaveClicked: (Diary) -> Unit,
     galleryState: GalleryState,
     onImageSelect: (Uri) -> Unit,
+    onImageClicked: (GalleryImage) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -159,7 +161,7 @@ fun WriteContent(
                 galleryState = galleryState,
                 onAddClicked = { focusManager.clearFocus() },
                 onImageSelect = onImageSelect,
-                onImageClicked = {}
+                onImageClicked = onImageClicked
             )
             Spacer(modifier = Modifier.height(12.dp))
             Button(

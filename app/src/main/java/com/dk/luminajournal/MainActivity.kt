@@ -46,7 +46,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
         cleanupCheck(
             scope = lifecycleScope,
             imageToUploadDao = imageToUploadDao
