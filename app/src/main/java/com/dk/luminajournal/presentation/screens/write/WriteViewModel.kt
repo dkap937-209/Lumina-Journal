@@ -94,13 +94,22 @@ class WriteViewModel @Inject constructor(
     }
 
     private fun deleteImagesFromFirebase(
-        images: List<String>
+        images: List<String>? = null
     ) {
         val storage = FirebaseStorage.getInstance().reference
-        images.forEach { remotePath ->
-            Log.i(TAG, "deleteImagesFromFirebase || remotePath = $remotePath ||")
-            storage.child(remotePath).delete()
+        if(images != null){
+            images.forEach { remotePath ->
+                Log.i(TAG, "deleteImagesFromFirebase || remotePath = $remotePath ||")
+                storage.child(remotePath).delete()
+            }
         }
+        else{
+            galleryState.imagesToBeDeleted.map { it.remoteImagePath }.forEach { remotePath ->
+                Log.i(TAG, "deleteImagesFromFirebase || remotePath = $remotePath ||")
+                storage.child(remotePath).delete()
+            }
+        }
+
     }
 
     private fun extractImagePath(fullImageUrl: String): String {
@@ -196,6 +205,7 @@ class WriteViewModel @Inject constructor(
 
         if(result is RequestState.Success){
             uploadImagesToFirebase()
+            deleteImagesFromFirebase()
             withContext(Dispatchers.Main){
                 onSuccess()
             }
