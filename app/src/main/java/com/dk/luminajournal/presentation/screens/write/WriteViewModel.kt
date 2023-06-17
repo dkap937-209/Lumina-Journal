@@ -93,6 +93,16 @@ class WriteViewModel @Inject constructor(
         }
     }
 
+    private fun deleteImagesFromFirebase(
+        images: List<String>
+    ) {
+        val storage = FirebaseStorage.getInstance().reference
+        images.forEach { remotePath ->
+            Log.i(TAG, "deleteImagesFromFirebase || remotePath = $remotePath ||")
+            storage.child(remotePath).delete()
+        }
+    }
+
     private fun extractImagePath(fullImageUrl: String): String {
         val chunks = fullImageUrl.split("%2F")
         val imageName = chunks[2].split("?").first()
@@ -205,11 +215,14 @@ class WriteViewModel @Inject constructor(
             if(uiState.selectedDiaryId != null){
                 val result = MongoDB.deleteDiary(id = ObjectId(uiState.selectedDiaryId!!))
                 if(result is RequestState.Success){
+                    Log.i(TAG, "deleteDiary || result = success || selectedDiaryId = ${uiState.selectedDiaryId} ||")
                     withContext(Dispatchers.Main){
+                        uiState.selectedDiary?.let { deleteImagesFromFirebase(images = it.images) }
                         onSuccess()
                     }
                 }
                 else if(result is RequestState.Error){
+                    Log.i(TAG, "deleteDiary || result = Error | Error Message: ${result.error.message.toString()} || selectedDiaryId = ${uiState.selectedDiaryId} ||")
                     withContext(Dispatchers.Main){
                         onError(result.error.message.toString())
                     }
