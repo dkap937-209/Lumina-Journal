@@ -8,7 +8,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dk.luminajournal.data.database.ImageToDeleteDao
 import com.dk.luminajournal.data.database.ImageToUploadDao
+import com.dk.luminajournal.data.database.entity.ImageToDelete
 import com.dk.luminajournal.data.database.entity.ImageToUpload
 import com.dk.luminajournal.data.repository.MongoDB
 import com.dk.luminajournal.model.Diary
@@ -36,7 +38,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WriteViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val imageToUploadDao: ImageToUploadDao
+    private val imageToUploadDao: ImageToUploadDao,
+    private val imageToDeleteDao: ImageToDeleteDao
 ): ViewModel() {
 
     private val TAG = "WriteViewModel"
@@ -101,12 +104,32 @@ class WriteViewModel @Inject constructor(
             images.forEach { remotePath ->
                 Log.i(TAG, "deleteImagesFromFirebase || remotePath = $remotePath ||")
                 storage.child(remotePath).delete()
+                    .addOnFailureListener{
+                        viewModelScope.launch(Dispatchers.IO) {
+                            Log.i(TAG, "deleteImagesFromFirebase || Failed to delete $remotePath ||")
+                            imageToDeleteDao.addImageToDelete(
+                                ImageToDelete(
+                                    remoteImagePath = remotePath
+                                )
+                            )
+                        }
+                    }
             }
         }
         else{
             galleryState.imagesToBeDeleted.map { it.remoteImagePath }.forEach { remotePath ->
                 Log.i(TAG, "deleteImagesFromFirebase || remotePath = $remotePath ||")
                 storage.child(remotePath).delete()
+                    .addOnFailureListener{
+                        viewModelScope.launch(Dispatchers.IO) {
+                            Log.i(TAG, "deleteImagesFromFirebase || Failed to delete $remotePath ||")
+                            imageToDeleteDao.addImageToDelete(
+                                ImageToDelete(
+                                    remoteImagePath = remotePath
+                                )
+                            )
+                        }
+                    }
             }
         }
 
