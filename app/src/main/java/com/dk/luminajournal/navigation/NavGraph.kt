@@ -141,11 +141,17 @@ fun NavGraphBuilder.homeRoute(
     onDataLoaded: () -> Unit
 ){
     composable(route = Screen.Home.route){
-        val viewModel: HomeViewModel = viewModel()
+
+        val context = LocalContext.current
+        val viewModel: HomeViewModel = hiltViewModel()
         val diaries by viewModel.diaries
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         var signOutDialogOpened by remember{
+            mutableStateOf(false)
+        }
+
+        var deleteAllDialogOpened by remember{
             mutableStateOf(false)
         }
 
@@ -167,7 +173,10 @@ fun NavGraphBuilder.homeRoute(
             onSignOutClicked = {
                 signOutDialogOpened = true
             },
-            navigateToWriteWithArgs = navigateToWriteWithArgs
+            navigateToWriteWithArgs = navigateToWriteWithArgs,
+            onDeleteAllClicked = {
+                deleteAllDialogOpened = true
+            }
         )
         LaunchedEffect(key1 = Unit){
             MongoDB.configureRealm()
@@ -186,6 +195,39 @@ fun NavGraphBuilder.homeRoute(
                         navigateToAuth()
                     }
                 }
+            }
+        )
+
+        DisplayAlertDialog(
+            title = "Delete All Diaries",
+            message = "Are you sure you want to permanently delete all your diaries?",
+            dialogOpened = deleteAllDialogOpened,
+            onDialogClosed = { deleteAllDialogOpened = false },
+            onYesClicked = {
+               viewModel.deleteAllDiaries(
+                   onSuccess = {
+                       Toast.makeText(
+                           context,
+                           "All Diaries Deleted",
+                           Toast.LENGTH_SHORT
+                       ).show()
+                       scope.launch {
+                           drawerState.close()
+                       }
+                   },
+                   onError = {
+                       Toast.makeText(
+                           context,
+                           if(it.message == "No Internet Connection")
+                               "App requires an internet connection for this operation"
+                           else it.message,
+                           Toast.LENGTH_SHORT
+                       ).show()
+                       scope.launch {
+                           drawerState.close()
+                       }
+                   }
+               )
             }
         )
     }

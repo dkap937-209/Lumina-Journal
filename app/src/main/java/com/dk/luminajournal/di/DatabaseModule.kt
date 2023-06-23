@@ -2,6 +2,7 @@ package com.dk.luminajournal.di
 
 import android.content.Context
 import androidx.room.Room
+import com.dk.luminajournal.connectivity.NetworkConnectivityObserver
 import com.dk.luminajournal.data.database.ImagesDatabase
 import com.dk.luminajournal.util.Constants.IMAGES_DATABASE
 import dagger.Module
@@ -39,4 +40,10 @@ object DatabaseModule {
     fun provideImageToDeleteDao(
         database: ImagesDatabase
     ) = database.imageToDeleteDao()
+
+    @Provides
+    @Singleton
+    fun provideNetworkConnectivityObserver(
+        @ApplicationContext context: Context
+    ) = NetworkConnectivityObserver(context = context)
 }
