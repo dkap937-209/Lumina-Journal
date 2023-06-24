@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.dk.luminajournal.R
 import com.dk.luminajournal.data.repository.Diaries
 import com.dk.luminajournal.model.RequestState
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,6 +55,9 @@ fun HomeScreen(
     onSignOutClicked: () -> Unit,
     navigateToWriteWithArgs: (String) -> Unit,
     onDeleteAllClicked: () -> Unit,
+    dateIsSelected: Boolean,
+    onDateSelected: (ZonedDateTime) -> Unit,
+    onDateReset: () -> Unit
 ) {
     var padding by remember {
         mutableStateOf(PaddingValues())
@@ -71,7 +75,10 @@ fun HomeScreen(
             topBar = {
                 HomeTopBar(
                     onMenuClicked = onMenuClicked,
-                    scrollBehavior = scrollBehavior
+                    scrollBehavior = scrollBehavior,
+                    dateIsSelected = dateIsSelected,
+                    onDateReset = onDateReset,
+                    onDateSelected = onDateSelected
                 )
             },
             floatingActionButton = {
