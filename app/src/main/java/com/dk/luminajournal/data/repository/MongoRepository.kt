@@ -1,7 +1,8 @@
 package com.dk.luminajournal.data.repository
 
-import com.dk.luminajournal.model.Diary
+import com.dk.util.model.Diary
 import com.dk.luminajournal.model.RequestState
+import com.dk.util.model.RequestState
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import org.mongodb.kbson.ObjectId

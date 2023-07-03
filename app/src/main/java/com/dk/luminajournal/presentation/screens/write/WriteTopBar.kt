@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.dk.luminajournal.model.Diary
+import com.dk.util.model.Diary
 import com.dk.luminajournal.presentation.components.DisplayAlertDialog
 import com.dk.luminajournal.util.toInstant
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState

@@ -1,10 +1,11 @@
 package com.dk.luminajournal.data.repository
 
 import android.util.Log
-import com.dk.luminajournal.model.Diary
+import com.dk.util.model.Diary
 import com.dk.luminajournal.util.Constants.APP_ID
 import com.dk.luminajournal.model.RequestState
 import com.dk.luminajournal.util.toInstant
+import com.dk.util.model.RequestState
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.log.LogLevel

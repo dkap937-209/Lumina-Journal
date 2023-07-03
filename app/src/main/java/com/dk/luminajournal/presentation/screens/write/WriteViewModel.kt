@@ -13,7 +13,7 @@ import com.dk.luminajournal.data.database.ImageToUploadDao
 import com.dk.luminajournal.data.database.entity.ImageToDelete
 import com.dk.luminajournal.data.database.entity.ImageToUpload
 import com.dk.luminajournal.data.repository.MongoDB
-import com.dk.luminajournal.model.Diary
+import com.dk.util.model.Diary
 import com.dk.luminajournal.model.GalleryImage
 import com.dk.luminajournal.model.GalleryState
 import com.dk.luminajournal.model.Mood

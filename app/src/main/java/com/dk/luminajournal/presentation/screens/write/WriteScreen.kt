@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.dk.luminajournal.model.Diary
+import com.dk.util.model.Diary
 import com.dk.luminajournal.model.GalleryImage
 import com.dk.luminajournal.model.GalleryState
 import com.dk.luminajournal.model.Mood

@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dk.luminajournal.connectivity.ConnectivityObserver
-import com.dk.luminajournal.connectivity.NetworkConnectivityObserver
+import com.dk.util.connectivity.ConnectivityObserver
+import com.dk.util.connectivity.NetworkConnectivityObserver
 import com.dk.luminajournal.data.database.ImageToDeleteDao
 import com.dk.luminajournal.data.database.entity.ImageToDelete
 import com.dk.luminajournal.data.repository.Diaries

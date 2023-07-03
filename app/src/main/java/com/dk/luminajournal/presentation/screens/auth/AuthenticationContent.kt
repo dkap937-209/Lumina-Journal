@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dk.luminajournal.R
-import com.dk.luminajournal.presentation.components.GoogleButton
+import com.dk.ui.components.GoogleButton
 
 @Composable
 fun AuthenticationContent(
