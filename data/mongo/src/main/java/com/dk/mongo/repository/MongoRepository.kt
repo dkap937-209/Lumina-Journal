@@ -1,7 +1,6 @@
-package com.dk.luminajournal.data.repository
+package com.dk.mongo.repository
 
 import com.dk.util.model.Diary
-import com.dk.luminajournal.model.RequestState
 import com.dk.util.model.RequestState
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate

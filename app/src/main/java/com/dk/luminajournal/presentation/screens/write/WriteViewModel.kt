@@ -1,26 +1,28 @@
 package com.dk.luminajournal.presentation.screens.write
 
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dk.luminajournal.data.database.ImageToDeleteDao
-import com.dk.luminajournal.data.database.ImageToUploadDao
-import com.dk.luminajournal.data.database.entity.ImageToDelete
-import com.dk.luminajournal.data.database.entity.ImageToUpload
-import com.dk.luminajournal.data.repository.MongoDB
+import com.dk.mongo.database.ImageToDeleteDao
 import com.dk.util.model.Diary
-import com.dk.luminajournal.model.GalleryImage
-import com.dk.luminajournal.model.GalleryState
-import com.dk.luminajournal.model.Mood
-import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.dk.luminajournal.model.RequestState
-import com.dk.luminajournal.util.fetchImagesFromFirebase
-import com.dk.luminajournal.util.toRealmInstant
+import com.dk.mongo.database.ImageToUploadDao
+import com.dk.mongo.database.entity.ImageToDelete
+import com.dk.mongo.database.entity.ImageToUpload
+import com.dk.mongo.repository.MongoDB
+import com.dk.ui.GalleryImage
+import com.dk.ui.GalleryState
+import com.dk.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.dk.util.fetchImagesFromFirebase
+import com.dk.util.model.Mood
+import com.dk.util.model.RequestState
+import com.dk.util.toRealmInstant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -165,6 +167,7 @@ class WriteViewModel @Inject constructor(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun updateDateTime(zonedDateTime: ZonedDateTime){
         uiState = uiState.copy(
             updatedDateTime = zonedDateTime.toInstant().toRealmInstant()

@@ -36,11 +36,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.dk.ui.GalleryImage
+import com.dk.ui.GalleryState
+import com.dk.util.GalleryUploader
 import com.dk.util.model.Diary
-import com.dk.luminajournal.model.GalleryImage
-import com.dk.luminajournal.model.GalleryState
-import com.dk.luminajournal.model.Mood
-import com.dk.luminajournal.presentation.components.GalleryUploader
+import com.dk.util.model.Mood
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState

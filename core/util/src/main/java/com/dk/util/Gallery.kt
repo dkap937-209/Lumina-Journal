@@ -1,4 +1,4 @@
-package com.dk.ui.components
+package com.dk.util
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

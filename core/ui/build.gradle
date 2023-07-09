@@ -24,7 +24,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -35,16 +34,18 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion ProjectConfig.extensionVersion
     }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
-    implementation project(":core:util")
-
     implementation libs.activity.compose
     implementation libs.material3.compose
     implementation libs.compose.tooling.preview
     implementation libs.coil
-    implementation libs.desugar.jdk
     implementation libs.realm.sync
     implementation libs.coroutines.core
     implementation libs.junit

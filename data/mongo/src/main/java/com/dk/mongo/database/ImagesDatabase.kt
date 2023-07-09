@@ -1,9 +1,9 @@
-package com.dk.luminajournal.data.database
+package com.dk.mongo.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.dk.luminajournal.data.database.entity.ImageToDelete
-import com.dk.luminajournal.data.database.entity.ImageToUpload
+import com.dk.mongo.database.entity.ImageToDelete
+import com.dk.mongo.database.entity.ImageToUpload
 
 @Database(
     entities = [ImageToUpload::class, ImageToDelete::class],

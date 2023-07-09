@@ -1,6 +1,8 @@
 package com.dk.luminajournal.presentation.screens.home
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,11 +11,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dk.util.connectivity.ConnectivityObserver
 import com.dk.util.connectivity.NetworkConnectivityObserver
-import com.dk.luminajournal.data.database.ImageToDeleteDao
-import com.dk.luminajournal.data.database.entity.ImageToDelete
-import com.dk.luminajournal.data.repository.Diaries
-import com.dk.luminajournal.data.repository.MongoDB
-import com.dk.luminajournal.model.RequestState
+import com.dk.mongo.database.ImageToDeleteDao
+import com.dk.mongo.database.entity.ImageToDelete
+import com.dk.mongo.repository.Diaries
+import com.dk.mongo.repository.MongoDB
+import com.dk.util.model.RequestState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import javax.inject.Inject
-
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val connectivity: NetworkConnectivityObserver,
@@ -75,6 +77,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun observeFilteredDiaries(zonedDateTime: ZonedDateTime){
         filteredDiariesJob = viewModelScope.launch {
             if(::allDiariesJob.isInitialized){

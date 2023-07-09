@@ -1,7 +1,9 @@
 package com.dk.luminajournal.navigation
 
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -21,18 +23,19 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.dk.luminajournal.data.repository.MongoDB
-import com.dk.luminajournal.model.Mood
-import com.dk.luminajournal.presentation.components.DisplayAlertDialog
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationScreen
 import com.dk.luminajournal.presentation.screens.auth.AuthenticationViewModel
 import com.dk.luminajournal.presentation.screens.home.HomeScreen
 import com.dk.luminajournal.presentation.screens.home.HomeViewModel
 import com.dk.luminajournal.presentation.screens.write.WriteScreen
 import com.dk.luminajournal.presentation.screens.write.WriteViewModel
-import com.dk.luminajournal.util.Constants.APP_ID
-import com.dk.luminajournal.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.dk.luminajournal.model.RequestState
+import com.dk.mongo.repository.MongoDB
+import com.dk.ui.components.DisplayAlertDialog
+import com.dk.util.Constants.APP_ID
+import com.dk.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.dk.util.Screen
+import com.dk.util.model.Mood
+import com.dk.util.model.RequestState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.stevdzasan.messagebar.rememberMessageBarState
@@ -43,6 +46,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 private const val TAG = "NavGraph"
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SetupNavGraph(
     startDestination: String,
@@ -133,7 +137,7 @@ fun NavGraphBuilder.authenticationRoute(
         )
     }
 }
-
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.homeRoute(
     navigateToWrite: () -> Unit,
     navigateToWriteWithArgs: (String) -> Unit,
@@ -239,7 +243,7 @@ fun NavGraphBuilder.homeRoute(
         )
     }
 }
-
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 fun NavGraphBuilder.writeRoute(
     onBackPressed: () -> Unit,

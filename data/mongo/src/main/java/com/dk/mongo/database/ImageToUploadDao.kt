@@ -1,10 +1,10 @@
-package com.dk.luminajournal.data.database
+package com.dk.mongo.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dk.luminajournal.data.database.entity.ImageToUpload
+import com.dk.mongo.database.entity.ImageToUpload
 
 @Dao
 interface ImageToUploadDao {

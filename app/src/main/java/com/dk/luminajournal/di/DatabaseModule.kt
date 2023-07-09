@@ -3,8 +3,8 @@ package com.dk.luminajournal.di
 import android.content.Context
 import androidx.room.Room
 import com.dk.util.connectivity.NetworkConnectivityObserver
-import com.dk.luminajournal.data.database.ImagesDatabase
-import com.dk.luminajournal.util.Constants.IMAGES_DATABASE
+import com.dk.mongo.database.ImagesDatabase
+import com.dk.util.Constants.IMAGES_DATABASE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

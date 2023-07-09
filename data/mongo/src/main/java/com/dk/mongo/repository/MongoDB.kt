@@ -1,11 +1,12 @@
-package com.dk.luminajournal.data.repository
+package com.dk.mongo.repository
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.dk.util.model.Diary
-import com.dk.luminajournal.util.Constants.APP_ID
-import com.dk.luminajournal.model.RequestState
-import com.dk.luminajournal.util.toInstant
+import com.dk.util.Constants.APP_ID
 import com.dk.util.model.RequestState
+import com.dk.util.toInstant
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.log.LogLevel
@@ -50,6 +51,7 @@ object MongoDB: MongoRepository {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun getAllDiaries(): Flow<Diaries> {
         return  if(user != null){
             try {
@@ -79,6 +81,7 @@ object MongoDB: MongoRepository {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun getFilteredDiaries(zonedDateTime: ZonedDateTime): Flow<Diaries> {
         return  if(user != null){
             try {
@@ -111,7 +114,7 @@ object MongoDB: MongoRepository {
     }
 
     override fun getSelectedDiary(diaryId: ObjectId): Flow<RequestState<Diary>> {
-        return if(user!= null){
+        return if(user != null){
             try {
                 realm.query<Diary>(
                     query = "_id == $0", diaryId
