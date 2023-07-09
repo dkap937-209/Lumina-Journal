@@ -1,4 +1,4 @@
-package com.dk.luminajournal.presentation.screens.auth
+package com.dk.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dk.luminajournal.R
 import com.dk.ui.components.GoogleButton
 
 @Composable

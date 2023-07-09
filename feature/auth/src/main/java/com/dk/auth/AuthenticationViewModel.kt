@@ -1,4 +1,4 @@
-package com.dk.luminajournal.presentation.screens.auth
+package com.dk.auth
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

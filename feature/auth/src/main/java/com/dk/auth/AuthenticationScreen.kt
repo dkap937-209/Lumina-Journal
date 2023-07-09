@@ -1,4 +1,4 @@
-package com.dk.luminajournal.presentation.screens.auth
+package com.dk.auth
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
