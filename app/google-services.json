@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "974853111567",
+    "project_id": "lumina-journal",
+    "storage_bucket": "lumina-journal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974853111567:android:9f99c13f9ba7d718cc087a",
+        "android_client_info": {
+          "package_name": "com.dk.luminajournal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974853111567-799f6t2ip10rl0jvdr5t07j02kofqfal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgrSapbVCViJVx9XQcuNKbNsNXHhzBo1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974853111567-799f6t2ip10rl0jvdr5t07j02kofqfal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

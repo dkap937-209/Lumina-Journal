@@ -4,16 +4,13 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dk.util.connectivity.ConnectivityObserver
 import com.dk.util.connectivity.NetworkConnectivityObserver
 import com.dk.mongo.database.ImageToDeleteDao
 import com.dk.mongo.database.entity.ImageToDelete
-import com.dk.mongo.repository.Diaries
 import com.dk.mongo.repository.MongoDB
 import com.dk.util.model.RequestState
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +23,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.dk.mongo.repository.Diaries
+import kotlin.reflect.KProperty
+
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -38,6 +40,7 @@ class HomeViewModel @Inject constructor(
 
     private val TAG = "HomeViewModel"
     private var network by mutableStateOf(ConnectivityObserver.Status.Unavailable)
+
     var diaries: MutableState<Diaries> = mutableStateOf(RequestState.Idle)
     var dateIsSelected by mutableStateOf(false)
         private set
@@ -45,20 +48,19 @@ class HomeViewModel @Inject constructor(
     init {
         getDiaries()
         viewModelScope.launch {
-            connectivity.observe().collect{ status ->
+            connectivity.observe().collect { status ->
                 network = status
             }
         }
     }
 
-    fun getDiaries(zonedDateTime: ZonedDateTime? = null){
+    fun getDiaries(zonedDateTime: ZonedDateTime? = null) {
         dateIsSelected = zonedDateTime != null
         diaries.value = RequestState.Loading
-        if(dateIsSelected && zonedDateTime != null){
+        if (dateIsSelected && zonedDateTime != null) {
             Log.i(TAG, "getDiaries || Retrieving Filtered Diaries ||")
             observeFilteredDiaries(zonedDateTime)
-        }
-        else{
+        } else {
             Log.i(TAG, "getDiaries || Retrieving All Diaries ||")
             observeAllDiaries()
         }
@@ -66,25 +68,27 @@ class HomeViewModel @Inject constructor(
 
     private fun observeAllDiaries() {
         allDiariesJob = viewModelScope.launch(Dispatchers.IO) {
-            if(::filteredDiariesJob.isInitialized){
+            if (::filteredDiariesJob.isInitialized) {
                 Log.i(TAG, "observeAllDiaries || Filtered Diaries Job Cancelled ||")
                 filteredDiariesJob.cancelAndJoin()
             }
-            MongoDB.getAllDiaries().collect{ result ->
-                diaries.value = result
+            MongoDB.getAllDiaries().collect { result ->
                 Log.i(TAG, "observeAllDiaries || Diary collected: $result ||")
+                withContext(Dispatchers.Main){
+                    diaries.value = result
+                }
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun observeFilteredDiaries(zonedDateTime: ZonedDateTime){
+    private fun observeFilteredDiaries(zonedDateTime: ZonedDateTime) {
         filteredDiariesJob = viewModelScope.launch {
-            if(::allDiariesJob.isInitialized){
+            if (::allDiariesJob.isInitialized) {
                 Log.i(TAG, "observeFilteredDiaries || All Diaries Job Cancelled ||")
                 allDiariesJob.cancelAndJoin()
             }
-            MongoDB.getFilteredDiaries(zonedDateTime).collect{ result ->
+            MongoDB.getFilteredDiaries(zonedDateTime).collect { result ->
                 Log.i(TAG, "observeFilteredDiaries || Diary collected: $result ||")
                 diaries.value = result
             }
@@ -94,9 +98,9 @@ class HomeViewModel @Inject constructor(
     fun deleteAllDiaries(
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
-    ){
+    ) {
 
-        if(network == ConnectivityObserver.Status.Available){
+        if (network == ConnectivityObserver.Status.Available) {
             val userId = FirebaseAuth.getInstance().currentUser?.uid
             val imagesDirectory = "images/${userId}"
             val storage = FirebaseStorage.getInstance().reference
@@ -110,7 +114,10 @@ class HomeViewModel @Inject constructor(
                         Log.i(TAG, "deleteAllDiaries || userId = $userId || imagePath = $imagePath")
                         storage.child(imagePath).delete()
                             .addOnFailureListener {
-                                Log.i(TAG, "deleteAllDiaries || userId = $userId || imagePath = $imagePath || Failed to beb deleted")
+                                Log.i(
+                                    TAG,
+                                    "deleteAllDiaries || userId = $userId || imagePath = $imagePath || Failed to beb deleted"
+                                )
                                 viewModelScope.launch(Dispatchers.IO) {
                                     imageToDeleteDao.addImageToDelete(
                                         ImageToDelete(
@@ -122,13 +129,12 @@ class HomeViewModel @Inject constructor(
                     }
                     viewModelScope.launch(Dispatchers.IO) {
                         val result = MongoDB.deleteAllDiaries()
-                        if(result is RequestState.Success){
-                            withContext(Dispatchers.Main){
+                        if (result is RequestState.Success) {
+                            withContext(Dispatchers.Main) {
                                 onSuccess()
                             }
-                        }
-                        else if(result is RequestState.Error){
-                            withContext(Dispatchers.Main){
+                        } else if (result is RequestState.Error) {
+                            withContext(Dispatchers.Main) {
                                 onError(result.error)
                             }
                         }
@@ -137,8 +143,7 @@ class HomeViewModel @Inject constructor(
                 .addOnFailureListener {
                     onError(it)
                 }
-        }
-        else{
+        } else {
             onError(Exception("No Internet Connection"))
         }
     }

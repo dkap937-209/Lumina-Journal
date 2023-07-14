@@ -59,6 +59,11 @@ object MongoDB: MongoRepository {
                     .sort(property = "date", sortOrder = Sort.DESCENDING)
                     .asFlow()
                     .map{ result ->
+                        Log.i(TAG, "getAllDiaries || result = ${result.list.groupBy {
+                            it.date.toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate()
+                        }}.")
                         RequestState.Success(
                                 data = result.list.groupBy {
                                     it.date.toInstant()
