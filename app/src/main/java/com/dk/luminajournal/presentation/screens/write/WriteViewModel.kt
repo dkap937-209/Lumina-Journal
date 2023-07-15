@@ -1,9 +1,7 @@
 package com.dk.luminajournal.presentation.screens.write
 
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -167,7 +165,7 @@ class WriteViewModel @Inject constructor(
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     fun updateDateTime(zonedDateTime: ZonedDateTime){
         uiState = uiState.copy(
             updatedDateTime = zonedDateTime.toInstant().toRealmInstant()

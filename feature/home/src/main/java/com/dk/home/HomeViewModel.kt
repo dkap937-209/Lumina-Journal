@@ -1,8 +1,6 @@
-package com.dk.luminajournal.presentation.screens.home
+package com.dk.home
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -26,9 +24,8 @@ import javax.inject.Inject
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.dk.mongo.repository.Diaries
-import kotlin.reflect.KProperty
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val connectivity: NetworkConnectivityObserver,
@@ -80,8 +77,7 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun observeFilteredDiaries(zonedDateTime: ZonedDateTime) {
         filteredDiariesJob = viewModelScope.launch {
             if (::allDiariesJob.isInitialized) {

@@ -1,4 +1,4 @@
-package com.dk.luminajournal.presentation.screens.home
+package com.dk.home
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close

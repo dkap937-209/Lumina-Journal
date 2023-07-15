@@ -1,5 +1,5 @@
-import android.os.Build
-import androidx.annotation.RequiresApi
+package com.dk.home
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +27,7 @@ import com.dk.util.DiaryHolder
 import com.dk.util.model.Diary
 import java.time.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(

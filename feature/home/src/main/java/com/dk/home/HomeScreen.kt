@@ -1,9 +1,5 @@
-package com.dk.luminajournal.presentation.screens.home
+package com.dk.home
 
-import EmptyPage
-import HomeContent
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,11 +38,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.dk.luminajournal.R
 import com.dk.mongo.repository.Diaries
 import com.dk.util.model.RequestState
 import java.time.ZonedDateTime
-@RequiresApi(Build.VERSION_CODES.O)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -144,7 +139,7 @@ fun NavigationDrawer(
                     ){
                         Image(
                             modifier = Modifier.size(250.dp),
-                            painter = painterResource(id = R.drawable.logo),
+                            painter = painterResource(id = com.dk.ui.R.drawable.logo),
                             contentDescription = "App Logo"
                         )
                     }
@@ -155,7 +150,7 @@ fun NavigationDrawer(
                                     .padding(horizontal = 12.dp)
                             ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.google_logo),
+                                    painter = painterResource(id = com.dk.ui.R.drawable.google_logo),
                                     contentDescription = "Google Logo"
                                 )
                                 Spacer(modifier = Modifier.width(12.dp))

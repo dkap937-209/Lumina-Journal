@@ -1,15 +1,13 @@
 package com.dk.util
 
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.google.firebase.storage.FirebaseStorage
 import io.realm.kotlin.types.RealmInstant
 import java.time.Instant
 
 private const val TAG = "UtilFunctions"
-@RequiresApi(Build.VERSION_CODES.O)
+
 fun RealmInstant.toInstant(): Instant {
     val sec: Long = this.epochSeconds
     val nano: Int = this.nanosecondsOfSecond
@@ -21,7 +19,7 @@ fun RealmInstant.toInstant(): Instant {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 fun Instant.toRealmInstant(): RealmInstant {
     val sec: Long = this.epochSecond
     val nano: Int = this.nano

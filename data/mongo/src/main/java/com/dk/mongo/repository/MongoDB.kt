@@ -1,8 +1,6 @@
 package com.dk.mongo.repository
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.dk.util.model.Diary
 import com.dk.util.Constants.APP_ID
 import com.dk.util.model.RequestState
@@ -51,7 +49,7 @@ object MongoDB: MongoRepository {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun getAllDiaries(): Flow<Diaries> {
         return  if(user != null){
             try {
@@ -86,7 +84,7 @@ object MongoDB: MongoRepository {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun getFilteredDiaries(zonedDateTime: ZonedDateTime): Flow<Diaries> {
         return  if(user != null){
             try {

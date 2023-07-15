@@ -1,9 +1,7 @@
 package com.dk.util
 
 import android.net.Uri
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -55,7 +53,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
 fun DiaryHolder(
     diary: Diary,
@@ -156,7 +154,7 @@ fun DiaryHolder(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
 fun DiaryHeader(
     moodName: String,
@@ -215,7 +213,7 @@ fun ShowGalleryButton(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Preview(showBackground = true)
 @Composable
 fun DiaryHolderPreview() {

@@ -2,8 +2,6 @@ package com.dk.luminajournal.presentation.screens.write
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +40,7 @@ import com.dk.util.model.Mood
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import java.time.ZonedDateTime
-@RequiresApi(Build.VERSION_CODES.O)
+
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
