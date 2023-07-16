@@ -44,7 +44,7 @@ import java.time.ZonedDateTime
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun WriteScreen(
+internal fun WriteScreen(
     uiState: UiState,
     onBackPressed: () -> Unit,
     pagerState: PagerState,
@@ -112,7 +112,7 @@ fun WriteScreen(
 }
 
 @Composable
-fun ZoomableImage(
+internal fun ZoomableImage(
     selectedGalleryImage: GalleryImage,
     onCloseClicked: () -> Unit,
     onDeleteClicked: () -> Unit

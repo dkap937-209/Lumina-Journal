@@ -8,7 +8,7 @@ import org.mongodb.kbson.ObjectId
 import java.time.ZonedDateTime
 
 typealias Diaries = RequestState<Map<LocalDate, List<Diary>>>
-interface MongoRepository {
+internal interface MongoRepository {
     fun configureRealm()
     fun getAllDiaries(): Flow<Diaries>
     fun getFilteredDiaries(zonedDateTime: ZonedDateTime): Flow<Diaries>

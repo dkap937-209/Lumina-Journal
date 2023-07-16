@@ -44,7 +44,7 @@ import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     diaries: Diaries,
     drawerState: DrawerState,
     onMenuClicked: () -> Unit,
@@ -121,7 +121,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun NavigationDrawer(
+internal fun NavigationDrawer(
     drawerState: DrawerState,
     onSignOutClicked: () -> Unit,
     onDeleteAllClicked: () -> Unit,

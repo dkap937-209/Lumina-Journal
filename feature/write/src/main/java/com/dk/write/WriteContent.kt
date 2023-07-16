@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun WriteContent(
+internal fun WriteContent(
     uiState: UiState,
     pagerState: PagerState,
     title: String,

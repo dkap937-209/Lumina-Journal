@@ -27,7 +27,7 @@ import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar(
+internal fun HomeTopBar(
     onMenuClicked: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     dateIsSelected: Boolean,

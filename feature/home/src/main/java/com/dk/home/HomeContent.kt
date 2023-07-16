@@ -30,7 +30,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeContent(
+internal fun HomeContent(
     paddingValues: PaddingValues,
     diaryNotes: Map<LocalDate, List<Diary>>,
     onClick: (String) -> Unit
@@ -65,7 +65,7 @@ fun HomeContent(
 }
 
 @Composable
-fun DateHeader(
+internal fun DateHeader(
     localDate: LocalDate
 ) {
     Row(
@@ -113,7 +113,7 @@ fun DateHeader(
 }
 
 @Composable
-fun EmptyPage(
+internal fun EmptyPage(
     title: String = "There Are No Diaries",
     subtitle: String = "Create Your First Diary"
 ) {
@@ -145,6 +145,6 @@ fun EmptyPage(
 
 @Composable
 @Preview(showBackground = true)
-fun DateHeaderPreview(){
+internal fun DateHeaderPreview(){
     DateHeader(localDate = LocalDate.now())
 }
