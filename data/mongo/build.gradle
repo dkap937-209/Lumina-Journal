@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'io.realm.kotlin'
+}
+
+android {
+    namespace 'com.dk.mongo'
+    compileSdk ProjectConfig.compileSdk
+
+    defaultConfig {
+        minSdk ProjectConfig.minSdk
+        targetSdk ProjectConfig.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+}
+
+dependencies {
+
+    implementation(project(":core:util"))
+
+    implementation libs.core.ktx
+    implementation libs.coroutines.core
+    implementation libs.realm.sync
+
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    kapt libs.room.compiler
+
+    implementation libs.junit
+    implementation libs.junit.ext
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
+}
