@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":data:mongo"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:write"))
 
     implementation libs.core.ktx
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'

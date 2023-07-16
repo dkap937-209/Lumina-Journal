@@ -1,4 +1,4 @@
-package com.dk.luminajournal.presentation.screens.write
+package com.dk.write
 
 import android.net.Uri
 import android.widget.Toast
