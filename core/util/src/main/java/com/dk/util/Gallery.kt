@@ -128,7 +128,6 @@ fun GalleryUploader(
             }
         }
 
-        //TODO: Modify this to allow for scrolling images so no overflow amount
         Row{
             AddImageButton(
                 imageSize = imageSize,
@@ -144,7 +143,6 @@ fun GalleryUploader(
             )
             Spacer(modifier = Modifier.width(spaceBetween))
             LazyRow{
-                //TODO: Put images in here
                 items(galleryState.images){ galleryImage ->
                     AsyncImage(
                         modifier = Modifier
