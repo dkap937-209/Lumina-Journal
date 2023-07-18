@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -126,6 +128,7 @@ fun GalleryUploader(
             }
         }
 
+        //TODO: Modify this to allow for scrolling images so no overflow amount
         Row{
             AddImageButton(
                 imageSize = imageSize,
@@ -140,27 +143,23 @@ fun GalleryUploader(
                 }
             )
             Spacer(modifier = Modifier.width(spaceBetween))
-            galleryState.images.take(numberOfVisibleImages.value).forEach{ galleryImage ->
-                AsyncImage(
-                    modifier = Modifier
-                        .clip(imageShape)
-                        .size(imageSize)
-                        .clickable { onImageClicked(galleryImage) },
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(galleryImage.image)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = "Gallery Image",
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.width(spaceBetween))
-            }
-            if(remainingImages.value > 0){
-                LastImageOverlay(
-                    imageSize = imageSize,
-                    remainingImages = remainingImages.value,
-                    imageShape = imageShape
-                )
+            LazyRow{
+                //TODO: Put images in here
+                items(galleryState.images){ galleryImage ->
+                    AsyncImage(
+                        modifier = Modifier
+                            .clip(imageShape)
+                            .size(imageSize)
+                            .clickable { onImageClicked(galleryImage) },
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(galleryImage.image)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = "Gallery Image",
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.width(spaceBetween))
+                }
             }
         }
     }
